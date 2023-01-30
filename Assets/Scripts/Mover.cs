@@ -22,11 +22,22 @@ public class Mover : MonoBehaviour
     private void Update()
     {
         moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
-        moveDirection += transform.right * Input.GetAxisRaw("Horizontal") * strafeSpeed* Time.deltaTime;
+        moveDirection += transform.right * Input.GetAxisRaw("Horizontal") * strafeSpeed * Time.deltaTime;
         rb.MovePosition(transform.position + moveDirection);
 
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime);
 
-        flame.SetActive(Input.GetButton("Fire"));
+        if (Input.GetButton("Fire"))
+        {
+            var algo = flame.GetComponent<ParticleSystem>().emission;
+            algo.enabled = true;
+        }
+        else
+        {
+            var algo = flame.GetComponent<ParticleSystem>().emission;
+            algo.enabled = false;
+        }
+
+
     }
 }

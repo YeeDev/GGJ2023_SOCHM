@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     float damageTimer;
 
-    private void OnTriggerStay(Collider other)
+    private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag(flameTag) && Time.time > damageTimer)
         {
