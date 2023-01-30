@@ -7,6 +7,7 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] float speed = 2;
     [SerializeField] float rotationSpeed = 5;
+    [SerializeField] GameObject bullet;
 
     Vector3 moveDirection;
     Rigidbody rb;
@@ -14,6 +15,7 @@ public class Mover : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -22,5 +24,10 @@ public class Mover : MonoBehaviour
         rb.MovePosition(transform.position + moveDirection);
 
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime);
+
+        if (Input.GetButtonDown("Shoot"))
+        {
+            Instantiate(bullet, transform.position, transform.rotation);
+        }
     }
 }
