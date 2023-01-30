@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
-    [SerializeField] float speed = 2;
+    [SerializeField] float walkSpeed = 2;
+    [SerializeField] float strafeSpeed = 1;
     [SerializeField] float rotationSpeed = 5;
     [SerializeField] GameObject flame;
 
@@ -20,7 +21,8 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
+        moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
+        moveDirection += transform.right * Input.GetAxisRaw("Horizontal") * strafeSpeed* Time.deltaTime;
         rb.MovePosition(transform.position + moveDirection);
 
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime);
