@@ -12,7 +12,7 @@ public class Planet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) => CheckIfAddToPulled(other);
     private void OnTriggerExit(Collider other) => pulledUnits.Remove(other.transform);
-    private void FixedUpdate() => RotateAndPull();
+    private void Update() => RotateAndPull();
 
     private void CheckIfAddToPulled(Collider other)
     {
