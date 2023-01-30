@@ -11,7 +11,7 @@ public class Planet : MonoBehaviour
     {
         if (other.CompareTag(unit))
         {
-            Vector3 gravityUp = (transform.position - other.transform.position).normalized;
+            Vector3 gravityUp = (other.transform.position - transform.position).normalized;
             Vector3 bodyUp = other.transform.up;
 
             Rigidbody rb = other.GetComponent<Rigidbody>();

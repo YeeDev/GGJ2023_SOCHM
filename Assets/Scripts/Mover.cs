@@ -17,7 +17,7 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        moveDirection = transform.forward * -Input.GetAxisRaw("Vertical") * speed;
+        moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * speed;
         rb.MovePosition(transform.position + moveDirection);
     }
 }
