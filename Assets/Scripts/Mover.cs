@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
+    [SerializeField] float speed;
+
     Vector3 moveDirection;
     Rigidbody rb;
 
@@ -15,9 +17,7 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        moveDirection = transform.forward * Input.GetAxisRaw("Vertical");
-
-
+        moveDirection = transform.forward * -Input.GetAxisRaw("Vertical") * speed;
         rb.MovePosition(transform.position + moveDirection);
     }
 }
