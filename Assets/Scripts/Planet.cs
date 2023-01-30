@@ -25,16 +25,8 @@ public class Planet : MonoBehaviour
         foreach (KeyValuePair<Transform, Rigidbody> unit in pulledUnits)
         {
             Vector3 gravityDirection = (unit.Key.position - transform.position).normalized;
-            Rotate(unit.Key, gravityDirection);
-            Pull(unit.Value, gravityDirection);
+            unit.Key.rotation = Quaternion.FromToRotation(unit.Key.up, gravityDirection) * unit.Key.rotation;
+            unit.Value.AddForce(gravityDirection * gravityForce);
         }
     }
-
-    private void Rotate(Transform unit, Vector3 gravityDirection)
-    {
-        Quaternion rotation = Quaternion.FromToRotation(unit.up, gravityDirection) * unit.rotation;
-        unit.rotation = Quaternion.FromToRotation(unit.up, gravityDirection) * unit.rotation;
-    }
-
-    private void Pull(Rigidbody unit, Vector3 gravityDirection) => unit.AddForce(gravityDirection * gravityForce);
 }
