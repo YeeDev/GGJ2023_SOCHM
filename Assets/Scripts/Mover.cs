@@ -7,7 +7,7 @@ public class Mover : MonoBehaviour
 {
     [SerializeField] float speed = 2;
     [SerializeField] float rotationSpeed = 5;
-    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject flame;
 
     Vector3 moveDirection;
     Rigidbody rb;
@@ -25,9 +25,6 @@ public class Mover : MonoBehaviour
 
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * rotationSpeed * Time.deltaTime);
 
-        if (Input.GetButtonDown("Shoot"))
-        {
-            Instantiate(bullet, transform.position, transform.rotation);
-        }
+        flame.SetActive(Input.GetButton("Fire"));
     }
 }
