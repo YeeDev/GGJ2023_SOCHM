@@ -1,13 +1,9 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Veggie : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 1.5f;
-    [SerializeField] int health = 50;
-    [SerializeField] float damageTick = 0.1f;
-    [SerializeField] int damageTaken = 1;
 
-    float damageTimer;
     Rigidbody rb;
     Transform target;
 
@@ -53,18 +49,5 @@ public class Enemy : MonoBehaviour
         }
 
         return step;
-    }
-
-    public void TakeDamage()
-    {
-        if (Time.time < damageTimer) { return; }
-
-        damageTimer = Time.time + damageTick;
-        health -= damageTaken;
-
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 }
