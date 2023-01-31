@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] string flameTag = "Flame";
-    [SerializeField] string enemyTag = "Player";
+    [SerializeField] float moveSpeed = 1.25f;
+    [SerializeField] int health = 50;
     [SerializeField] float damageTick = 0.1f;
     [SerializeField] int damageTaken = 1;
-    [SerializeField] int health = 100;
-    [SerializeField] float moveSpeed = 2f;
 
     float damageTimer;
     Rigidbody rb;
-    [SerializeField] Transform target;
+    Transform target;
+
+    public void SetTarget(Transform possibleTarget) { if (target == null) { target = possibleTarget; } }
+    public void RemoveTarget(Transform targetToCheck) { if (target == targetToCheck) { target = null; } }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    [SerializeField] float rayLength;
-
     private void Update()
     {
         if (target != null)
         {
             Vector3 direction = target.position - transform.position;
-            Vector3 step = direction;
+            Vector3 step;
 
             Ray rayWilliamJohnson = new Ray(transform.position, direction);
-            Physics.Raycast(rayWilliamJohnson, out RaycastHit hit, rayLength);
+            Physics.Raycast(rayWilliamJohnson, out RaycastHit hit, 1);
 
             if (hit.transform != target)
             {
@@ -47,26 +46,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void TakeDamage()
     {
-        if (other.CompareTag(enemyTag) && target == null) { target = other.transform; }
-    }
+        if (Time.time < damageTimer) { return; }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform == target) { target = null; }
-    }
-
-    private void OnParticleCollision(GameObject other)
-    {
-        if (other.CompareTag(flameTag) && Time.time > damageTimer)
-        {
-            TakeDamage();
-        }
-    }
-
-    private void TakeDamage()
-    {
         damageTimer = Time.time + damageTick;
         health -= damageTaken;
 
