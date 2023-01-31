@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 1.25f;
+    [SerializeField] float moveSpeed = 1.5f;
     [SerializeField] int health = 50;
     [SerializeField] float damageTick = 0.1f;
     [SerializeField] int damageTaken = 1;
@@ -23,27 +21,38 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        FollowTarget();
+    }
+
+    private void FollowTarget()
+    {
         if (target != null)
         {
             Vector3 direction = target.position - transform.position;
-            Vector3 step;
-
-            Ray rayWilliamJohnson = new Ray(transform.position, direction);
-            Physics.Raycast(rayWilliamJohnson, out RaycastHit hit, 1);
-
-            if (hit.transform != target)
-            {
-                Vector3 projectedVector = Vector3.ProjectOnPlane(direction, hit.normal);
-                step = projectedVector.normalized * Time.deltaTime * moveSpeed;
-            }
-            else
-            {
-                step = direction.normalized * Time.deltaTime * moveSpeed; 
-            }
+            Vector3 step = CalculateStep(direction);
 
             rb.MovePosition(transform.position + step);
             transform.LookAt(target, transform.up);
         }
+    }
+
+    private Vector3 CalculateStep(Vector3 direction)
+    {
+        Vector3 step;
+        Ray rayWilliamJohnson = new Ray(transform.position, direction);
+        Physics.Raycast(rayWilliamJohnson, out RaycastHit hit, 1);
+
+        if (hit.transform != target)
+        {
+            Vector3 projectedVector = Vector3.ProjectOnPlane(direction, hit.normal);
+            step = projectedVector.normalized * Time.deltaTime * moveSpeed;
+        }
+        else
+        {
+            step = direction.normalized * Time.deltaTime * moveSpeed;
+        }
+
+        return step;
     }
 
     public void TakeDamage()
