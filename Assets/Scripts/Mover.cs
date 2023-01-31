@@ -3,9 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
-    [SerializeField] float walkSpeed = 2;
-    [SerializeField] float strafeSpeed = 1;
-    [SerializeField] float rotationSpeed = 5;
+    [SerializeField] float walkSpeed = 2f;
+    [SerializeField] float strafeSpeed = 1f;
+    [SerializeField] float rotationSpeed = 5f;
     [SerializeField] ParticleSystem flame;
 
     Vector3 moveDirection;
@@ -19,12 +19,6 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton("Call Ship"))
-        {
-            flame.Stop();
-            return;
-        }
-
         moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
         moveDirection += transform.right * Input.GetAxisRaw("Horizontal") * strafeSpeed * Time.deltaTime;
         rb.MovePosition(transform.position + moveDirection);
