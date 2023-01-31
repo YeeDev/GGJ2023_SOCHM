@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [SerializeField] string unit = "Unit";
+    [SerializeField] string[] tagsAffected;
     [SerializeField] float gravityForce = -10f;
 
     bool needsCleaning;
@@ -16,11 +16,13 @@ public class Planet : MonoBehaviour
 
     private void CheckIfAddToPulled(Collider other)
     {
-        if (other.CompareTag(unit) && !pulledUnits.ContainsKey(other.transform))
+        if (IsValidTag(other.tag) && !pulledUnits.ContainsKey(other.transform))
         {
             pulledUnits.Add(other.transform, other.GetComponent<Rigidbody>());
         }
     }
+
+    private bool IsValidTag(string tag) { return tagsAffected.Any(t => t == tag); }
 
     private void RotateAndPull()
     {
