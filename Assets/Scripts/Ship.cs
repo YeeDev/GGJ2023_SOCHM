@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ship : MonoBehaviour
@@ -28,6 +26,9 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate() => Thrust();
 
+    public void Pitch(float angle) => transform.Rotate(transform.right, angle, Space.World);
+    public void Roll(float angle) => transform.Rotate(-transform.forward, angle, Space.World);
+
     private void Thrust()
     {
         Vector3 thrustSpeed = transform.forward * constantThrust;
@@ -48,6 +49,5 @@ public class Ship : MonoBehaviour
         main.startLifetime = lenght;
     }
 
-    public void Pitch(float angle) => transform.Rotate(transform.right, angle, Space.World);
-    public void Roll(float angle) => transform.Rotate(-transform.forward, angle, Space.World);
+
 }
