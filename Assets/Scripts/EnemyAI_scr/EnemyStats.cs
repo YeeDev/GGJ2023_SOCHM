@@ -12,7 +12,7 @@ public class EnemyStats : MonoBehaviour
     public void MakeInvulnerable() { isInvulnerable = true; }
     public void MakeVulnerable() { isInvulnerable = false; }
 
-    public virtual void TakeDamage()
+    public virtual void TakeDamage(GameObject other)
     {
         if (Time.time < damageTimer || isInvulnerable) { return; }
 

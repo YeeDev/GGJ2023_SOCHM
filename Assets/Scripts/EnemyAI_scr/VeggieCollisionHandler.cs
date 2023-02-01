@@ -14,5 +14,4 @@ public class VeggieCollisionHandler : AICollisionHandler
     }
 
     private void OnTriggerStay(Collider other) { if (other.CompareTag(targetTag)) { veggie.SetTarget(other.transform); } }
-    private void OnTriggerExit(Collider other) { veggie.RemoveTarget(other.transform); }
 }

@@ -3,22 +3,19 @@ using UnityEngine;
 public class Veggie : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 1.5f;
+    [SerializeField] RootStats rootTiedTo;
 
     Rigidbody rb;
     Transform target;
 
     public void SetTarget(Transform possibleTarget) { if (target == null) { target = possibleTarget; } }
-    public void RemoveTarget(Transform targetToCheck) { if (target == targetToCheck) { target = null; } }
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    private void OnEnable() { if (rootTiedTo != null) { rootTiedTo.onTakingDamage += SetTarget; } }
+    private void OnDisable() { if (rootTiedTo != null) { rootTiedTo.onTakingDamage -= SetTarget; } }
 
-    private void Update()
-    {
-        FollowTarget();
-    }
+    private void Awake() => rb = GetComponent<Rigidbody>();
+
+    private void Update() => FollowTarget();
 
     private void FollowTarget()
     {
