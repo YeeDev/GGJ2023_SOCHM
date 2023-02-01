@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Planet : MonoBehaviour
+public class Gravity : MonoBehaviour
 {
     [SerializeField] string[] tagsAffected;
     [SerializeField] float gravityForce = -10f;
