@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-    bool isActive;
+    [SerializeField] Transform enemyTiedTo;
 
-    public bool IsActive { get => isActive; }
+    public bool IsActive { get => enemyTiedTo == null; }
     public Vector3 TeleportPoint { get => transform.GetChild(0).position; }
-
-    public void Activate() => isActive = true;
 }

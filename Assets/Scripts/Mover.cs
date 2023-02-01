@@ -8,9 +8,14 @@ public class Mover : MonoBehaviour
     [SerializeField] float rotationSpeed = 5f;
     [SerializeField] string teleporterTag = "Teleporter";
     [SerializeField] float teleportTime = 3f;
+    [SerializeField] float jumpForce = 5f;
     [SerializeField] ParticleSystem flame;
+    [SerializeField] LayerMask groundMask;
+    [SerializeField] float checkerRadius;
+    [SerializeField] Transform groundChecker;
 
-    Transform teleporter;
+    bool isGrounded;
+    Teleporter teleporter;
     Vector3 moveDirection;
     Rigidbody rb;
 
@@ -22,9 +27,16 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Teleport") && teleporter != null)
+        Debug.Log(isGrounded);
+
+        if (Input.GetButtonDown("Teleport") && teleporter != null && teleporter.IsActive)
         {
-            transform.position = teleporter.GetChild(0).position;
+            transform.position = teleporter.TeleportPoint;
+        }
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.velocity = transform.up.normalized * jumpForce;
         }
 
         moveDirection = transform.forward * Input.GetAxisRaw("Vertical") * walkSpeed * Time.deltaTime;
@@ -37,6 +49,21 @@ public class Mover : MonoBehaviour
         else if (Input.GetButtonUp("Fire")) { flame.Stop(); }
     }
 
-    private void OnTriggerEnter(Collider other) { if (other.CompareTag(teleporterTag)) { teleporter = other.transform; } }
+    private void FixedUpdate()
+    {
+        isGrounded = Physics.CheckSphere(groundChecker.position, checkerRadius, groundMask);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(teleporterTag)) { teleporter = other.GetComponent<Teleporter>(); }
+    }
+
     private void OnTriggerExit(Collider other) { if (other.CompareTag(teleporterTag)) { teleporter = null; } }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(groundChecker.position, checkerRadius);
+    }
 }
