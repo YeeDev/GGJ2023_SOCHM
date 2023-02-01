@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     Mover mover;
     Attacker attacker;
+    PlayerStats stats;
     Teleporter teleporter;
 
     public Teleporter SetTeleporter { set => teleporter = value; }
@@ -20,10 +21,13 @@ public class PlayerController : MonoBehaviour
     {
         mover = GetComponent<Mover>();
         attacker = GetComponent<Attacker>();
+        stats = GetComponent<PlayerStats>();
     }
 
     void Update()
     {
+        if (stats.IsDead) { attacker.StopAttacking(); return; }
+
         ReadMoveInput();
         ReadTeleportInput();
         ReadJumpInput();

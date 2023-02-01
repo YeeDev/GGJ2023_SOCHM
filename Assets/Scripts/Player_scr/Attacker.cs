@@ -8,46 +8,54 @@ public class Attacker : MonoBehaviour
     [SerializeField] float regularCoolRate = 5f;
     [SerializeField] float timeToCool = 6f;
     [SerializeField] float timeToStartCooling = 0.5f;
+    [SerializeField] Color coldColor;
+    [SerializeField] Color overheatColor;
     [SerializeField] Image flamethrowerBar;
     [SerializeField] ParticleSystem flame;
 
     bool cooling;
 
+    public void StopAttacking() { flame.Stop(); }
+
     public void Attack()
     {
         if (cooling) { return; }
 
-        if (flame.isStopped && flamethrowerBar.fillAmount > 0) { flame.Play(); }
+        if (flame.isStopped) { flame.Play(); }
 
-        flamethrowerBar.fillAmount -= 1.0f / timeToOverheat * Time.deltaTime;
+        UpdateBar(timeToOverheat);
 
-        if (flamethrowerBar.fillAmount <= 0)
-        {
-            cooling = true;
-            flame.Stop();
-            StartCoroutine(Cool());
-        }
+        if (flamethrowerBar.fillAmount >= 1) { StartCoroutine(Cool()); }
     }
 
     public void OvertimeCool()
     {
-        if (cooling || flamethrowerBar.fillAmount >= 1) { return; }
+        if (cooling) { return; }
 
         if (flame.isPlaying) { flame.Stop(); }
 
-        flamethrowerBar.fillAmount += 1.0f / regularCoolRate * Time.deltaTime;
+        UpdateBar(-regularCoolRate);
     }
 
     private IEnumerator Cool()
     {
+        cooling = true;
+        flame.Stop();
+
         yield return new WaitForSeconds(timeToStartCooling);
 
-        while (flamethrowerBar.fillAmount < 1)
+        while (flamethrowerBar.fillAmount > 0)
         {
             yield return new WaitForEndOfFrame();
-            flamethrowerBar.fillAmount += 1.0f / timeToCool * Time.deltaTime;
+            UpdateBar(-timeToCool);
         }
 
         cooling = false;
+    }
+
+    private void UpdateBar(float time)
+    { 
+        flamethrowerBar.fillAmount += 1.0f / time * Time.deltaTime;
+        if (!cooling) { flamethrowerBar.color = Color.Lerp(coldColor, overheatColor, flamethrowerBar.fillAmount); }
     }
 }

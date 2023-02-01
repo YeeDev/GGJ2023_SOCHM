@@ -9,5 +9,5 @@ public class AICollisionHandler : MonoBehaviour
 
     protected virtual void Awake() => stats = GetComponent<EnemyStats>();
 
-    private void OnParticleCollision(GameObject other) { if (other.CompareTag(damagerTag)) { stats.TakeDamage(); } }
+    private void OnParticleCollision(GameObject other) { if (other.CompareTag(damagerTag)) { stats.TakeDamage(other); } }
 }
