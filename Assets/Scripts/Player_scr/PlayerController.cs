@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
 
     private void ReadAttackInput()
     {
-        if (Input.GetButtonDown("Fire")) { attacker.PlayParticles(); }
-        else if (Input.GetButtonUp("Fire")) { attacker.StopParticles(); }
+        if (Input.GetButton("Fire")) { attacker.Attack(); }
+        else if (!Input.GetButton("Fire")) { attacker.OvertimeCool(); }
     }
 
 #if UNITY_EDITOR
