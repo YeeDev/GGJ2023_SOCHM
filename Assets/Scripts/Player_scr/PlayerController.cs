@@ -7,8 +7,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundMask;
     [SerializeField] float checkerRadius;
     [SerializeField] Transform groundChecker;
+    [SerializeField] string walkParameter = "Walking";
 
     bool isGrounded;
+    Animator anm;
     Mover mover;
     Attacker attacker;
     PlayerStats stats;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        anm = GetComponentInChildren<Animator>();
         mover = GetComponent<Mover>();
         attacker = GetComponent<Attacker>();
         stats = GetComponent<PlayerStats>();
@@ -39,7 +42,10 @@ public class PlayerController : MonoBehaviour
 
     private void ReadMoveInput()
     {
-        mover.MoveInDirection(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        float hAxis = Input.GetAxisRaw("Horizontal");
+        float vAxis = Input.GetAxisRaw("Vertical");
+        mover.MoveInDirection(hAxis, vAxis);
+        anm.SetBool(walkParameter, Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 0);
     }
 
     private void ReadTeleportInput()
