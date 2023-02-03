@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] int maxhealth = 3;
     [SerializeField] float invulnerabilityTime = 1f;
     [SerializeField] Image hearts;
+    [SerializeField] int heartSize = 32;
 
     float currentHealth;
     float invulnerabilityTimer;
@@ -20,7 +21,7 @@ public class PlayerStats : MonoBehaviour
         invulnerabilityTimer = Time.time + invulnerabilityTime;
 
         currentHealth--;
-        hearts.fillAmount = currentHealth / maxhealth;
+        hearts.rectTransform.sizeDelta = new Vector2(currentHealth * heartSize, hearts.rectTransform.sizeDelta.y);
 
         if (currentHealth <= 0)
         {
