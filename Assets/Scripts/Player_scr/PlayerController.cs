@@ -14,10 +14,6 @@ public class PlayerController : MonoBehaviour
     Mover mover;
     Attacker attacker;
     PlayerStats stats;
-    Teleporter teleporter;
-
-    public Teleporter SetTeleporter { set => teleporter = value; }
-    public void RemoveTeleporter() { teleporter = null; }
 
     private void Awake()
     {
@@ -32,7 +28,6 @@ public class PlayerController : MonoBehaviour
         if (stats.IsDead) { attacker.StopAttacking(); return; }
 
         ReadMoveInput();
-        ReadTeleportInput();
         ReadJumpInput();
         ReadRotationInput();
         ReadAttackInput();
@@ -48,18 +43,9 @@ public class PlayerController : MonoBehaviour
         anm.SetBool(walkParameter, Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 0);
     }
 
-    private void ReadTeleportInput()
-    {
-        if (Input.GetButtonDown("Teleport") && teleporter != null && teleporter.IsActive)
-        {
-            mover.Teleport(teleporter.TeleportPoint);
-        }
-    }
-
     private void ReadJumpInput() { if (Input.GetButtonDown("Jump") && isGrounded) { mover.Jump(); } }
 
     private void ReadRotationInput() => mover.Rotate(Input.GetAxisRaw("Mouse X"));
-
 
     private void ReadAttackInput()
     {

@@ -1,26 +1,23 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerCollisionHandler : MonoBehaviour
 {
     [SerializeField] string teleporterTag = "Teleporter";
     [SerializeField] string enemyTag = "Enemy";
 
     PlayerStats stats;
-    PlayerController controller;
 
-    private void Awake()
-    {
-        controller = GetComponent<PlayerController>();
-        stats = GetComponent<PlayerStats>();
-    }
+    private void Awake() => stats = GetComponent<PlayerStats>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(teleporterTag)) { controller.SetTeleporter = other.GetComponent<Teleporter>(); }
+        if (other.CompareTag(teleporterTag))
+        {
+            Teleporter teleporter = other.GetComponent<Teleporter>();
+            if (teleporter.IsActive) { transform.position = teleporter.TeleportPoint; }
+        }
     }
-
-    private void OnTriggerExit(Collider other) { if (other.CompareTag(teleporterTag)) { controller.RemoveTeleporter(); } }
 
     private void OnCollisionEnter(Collision collision)
     {
