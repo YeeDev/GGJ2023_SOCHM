@@ -12,7 +12,7 @@ public class MVeggieStats : EnemyStats
 
     public override void TakeDamage(GameObject other)
     {
-        if (Time.time < damageTimer) { return; }
+        if (Time.time < damageTimer || isInvulnerable) { return; }
 
         anm.SetTrigger(damageParameter);
         damageTimer = Time.time + damageTick;

@@ -6,7 +6,7 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] protected float damageTick = 0.1f;
     [SerializeField] protected int damageTaken = 1;
 
-    bool isInvulnerable;
+    protected bool isInvulnerable;
     protected float damageTimer;
 
     public void MakeInvulnerable() { isInvulnerable = true; }

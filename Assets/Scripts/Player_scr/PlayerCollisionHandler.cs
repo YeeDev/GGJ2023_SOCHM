@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerCollisionHandler : MonoBehaviour
 {
     [SerializeField] string teleporterTag = "Teleporter";
+    [SerializeField] string endTag = "EndTeleporter";
     [SerializeField] string enemyTag = "Enemy";
 
     PlayerStats stats;
@@ -16,6 +17,12 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             Teleporter teleporter = other.GetComponent<Teleporter>();
             if (teleporter.IsActive) { transform.position = teleporter.TeleportPoint; }
+        }
+        //Kids, do not hardcode this type of things, I'm only doing it because Jam reasons.
+        else if (other.CompareTag(endTag))
+        {
+            Loader loader = FindObjectOfType<Loader>();
+            loader.LoadScene(2);
         }
     }
 
